@@ -1,4 +1,4 @@
-# vaultwarden-mimari-analiz
+
 # Vaultwarden Güvenlik ve Sistem Mimarisi Analizi
 **Öğrenci:** Meltem Eser  
 **Öğrenci No:** 2420191036  
