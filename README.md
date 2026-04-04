@@ -1,11 +1,5 @@
 
 # Vaultwarden Güvenlik ve Sistem Mimarisi Analizi
-**Öğrenci:** Meltem Eser  
-**Öğrenci No:** 2420191036  
-**Bölüm:** Bilişim Güvenliği Teknolojisi  
-
-Bu çalışma; açık kaynaklı `Vaultwarden` projesinin kurulumundan kaynak koduna kadar olan süreçlerinin bir "Güvenlik Uzmanı ve Sistem Mimarı" gözlüğüyle incelenmesini içermektedir.
-
 ---
 
 ## 🛠️ Adım 1: Kurulum ve install.sh Analizi
