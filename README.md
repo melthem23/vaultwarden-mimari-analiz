@@ -28,14 +28,22 @@ Vaultwarden sanal ortamda (VM) bir Docker konteyneri olarak ayağa kaldırılmı
 
 ---
 
-## 🚀 Adım 3: İş Akışları ve CI/CD Pipeline Analizi
-**Hedef:** `.github/workflows` içindeki otomasyonların analizi.
+## 🚀 Adım 3:## 🚀 Adım 3: İş Akışları ve CI/CD Pipeline Analizi
+**Hedef:** Repoda bulunan CI/CD paketlerinden birinin seçilip derinlemesine incelenmesi ve Webhook kavramının açıklanması.
 
-Repoda yer alan `workflow` dosyalarından biri incelenmiştir. Bu dosyalar, koda yeni bir güncelleme geldiğinde otomatik olarak testlerin koşulmasını sağlar.
+Vaultwarden reposunda yer alan `.github/workflows/build.yml` dosyası analiz edilmiştir. Bu dosya, projede Sürekli Entegrasyon (CI) ve Sürekli Dağıtım (CD) süreçlerini yöneten otomasyon şablonudur.
 
-### ❓ Kritik Soru: Webhook Nedir?
-**Webhook**, bir sistemde bir olay (event) gerçekleştiğinde, başka bir sisteme gerçek zamanlı veri göndermek için kullanılan HTTP "push" bildirimleridir. 
-* **Bu Projedeki İşlevi:** Geliştirici koda yeni bir güncelleme gönderdiğinde (Push / Pull Request), GitHub sunucuları otomatik olarak bir Webhook tetikler. Bu tetikleme, CI/CD sunucularına "Hey, yeni kod geldi, hemen testleri başlat ve Docker imajını inşa et" emrini gönderir. Böylece insan müdahalesine gerek kalmadan sürekli entegrasyon sağlanmış olur.
+### ⚙️ 1. CI/CD Adım Adım Ne Yapıyor?
+Geliştiriciler ana koda her `push` yaptığında veya yeni bir `Pull Request` açıldığında GitHub Actions sunucuları devreye girer ve şu adımları sırasıyla koşturur:
+1. **Ortam Hazırlığı:** Ubuntu tabanlı sanal bir makine ayağa kaldırılır ve Rust derleyicisi (`rustup`) kurulur.
+2. **Statik Analiz (Linter):** `cargo clippy` komutu çalıştırılarak kodda güvenlik zayıflığı veya yazım hatası olup olmadığı taranır.
+3. **Derleme ve Paketleme:** Kod hatasızsa derlenir ve Docker Hub platformuna yüklenmek üzere yeni bir Docker imajı haline getirilir.
+
+### ❓ 2. Kritik Soru: Webhook Nedir ve Ne İşe Yarar?
+**Webhook**, bir sistemde belirli bir olay (event) gerçekleştiğinde, başka bir sisteme gerçek zamanlı veri göndermek için kullanılan HTTP POST bildirimleridir. Klasik API'lerin aksine, sürekli "Yeni bir şey var mı?" diye sormak (polling) yerine, olay gerçekleştiği an karşı tarafı "dürterek" haber verir.
+
+**Vaultwarden Özelinde İşlevi:**
+Geliştirici GitHub'a yeni kod yüklediğinde, GitHub bunu bir "Push Olayı" olarak algılar ve tanımlı olan Webhook'u tetikler. Bu tetikleme sinyali, CI/CD sunucularına veya Docker Hub'a *"Hey, yeni kod onaylandı, hemen yeni Docker imajını inşa et ve sunucuyu güncelle"* emrini otomatik olarak iletir. Bu sayede insan müdahalesine gerek kalmadan sıfır kesintiyle sistem güncellenmiş olur.
 
 ---
 
