@@ -54,7 +54,27 @@ Geliştiriciler ana koda her `push` yaptığında veya yeni bir `Pull Request` a
 **Vaultwarden Özelinde İşlevi:**
 Geliştirici GitHub'a yeni kod yüklediğinde, GitHub bunu bir "Push Olayı" olarak algılar ve tanımlı olan Webhook'u tetikler. Bu tetikleme sinyali, CI/CD sunucularına veya Docker Hub'a *"Hey, yeni kod onaylandı, hemen yeni Docker imajını inşa et ve sunucuyu güncelle"* emrini otomatik olarak iletir. Bu sayede insan müdahalesine gerek kalmadan sıfır kesintiyle sistem güncellenmiş olur.
 
----
+```yaml
+# Analiz Edilen .github/workflows/build.yml Dosyasından Kesit:
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Build Docker Image
+        run: docker build -t vaultwarden/server:latest .
 
 ## 🐳 Adım 4: Docker Mimarisi ve Konteyner Güvenliği
 **Hedef:** Docker mimarisi ve güvenli yapılandırma.
