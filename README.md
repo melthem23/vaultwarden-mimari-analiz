@@ -86,8 +86,18 @@ Vaultwarden projesinde yazılımın kendisi ve bağımlılıkları Docker katman
 * **Katmanlar:** Dockerfile'daki her bir komut (`RUN`, `COPY` vb.) yeni bir katman oluşturur. Bu sayede sadece değişen katmanlar güncellenerek hız kazanılır.
 * **Güvenlik Nasıl Sağlanır?:** Konteynerin sistemde kısıtlı erişime sahip olması için imajın `root` olmayan bir kullanıcı (`non-root user`) ile çalıştırılması ve sadece gerekli portların dışarıya açılması gerekmektedir.
 
----
+```dockerfile
+# Analiz Edilen Dockerfile Dosyasından Güvenlik Kesiti:
+FROM debian:bookworm-slim
 
+# Güvenlik için uygulamanın çalışacağı dizin sınırlandırılıyor
+WORKDIR /
+
+# Sadece çalışması için gereken port dışarı açılıyor
+EXPOSE 80
+
+# Uygulama başlatılıyor
+CMD ["/vaultwarden"]
 ## 🕵️‍♂️ Adım 5: Kaynak Kod ve Akış Analizi
 **Hedef:** Başlangıç noktası, şifreleme ve tehdit modellemesi.
 
