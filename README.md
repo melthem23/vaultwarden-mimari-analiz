@@ -14,7 +14,16 @@ Vaultwarden projesinde doğrudan terminale kopyalanıp çalıştırılan güvens
 * **Dizin:** Yazılım çalıştırıldığında tüm verileri `/data` (veya Docker içinde `/vw-data/`) klasöründe depolar.
 * **Yetki:** Sistemde `root` (en yetkili) erişimini zorunlu kılmaz. Bu durum, olası bir siber saldırıda hacker'ın tüm ana makineyi ele geçirmesini engeller.
 
----
+```bash
+# 1. Konteyner temizlik kontrolü
+mltme@ubuntu:~$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS   PORTS     NAMES
+# Aktif veya durdurulmuş hiçbir Vaultwarden konteyneri bulunamadı.
+
+# 2. Port kontrolü (Dinlenen bir port kalmadığının ispatı)
+mltme@ubuntu:~$ netstat -an | grep 80
+mltme@ubuntu:~$ 
+# Komut hiçbir çıktı vermedi, yani arkada açık kapı kalmadı.
 
 ## 🧹 Adım 2: İzolasyon ve İz Bırakmadan Temizlik
 **Hedef:** Kurulan aracın sistemden hiçbir kalıntı kalmayacak şekilde silinmesi ve bunun ispatı.
